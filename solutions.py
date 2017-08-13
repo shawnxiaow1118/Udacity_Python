@@ -80,7 +80,13 @@ def question3(G):
 	non-negative integer representing the root, and n1 and n2 are non-negative integers representing the two nodes in no particular order.
 """
 def question4(T, r, n1, n2):
-	return
+	if (r == None):
+		return
+	if (n1 < r and n2 < r):
+		return question4(T, T[r].index(1), n1, n2)
+	elif (n1 > r and n2 > r):
+		return question4(T, T[r][r:-1].index(1), n1, n2)
+	return r
 
 
 """ Find the element in a singly linked list that's m elements from the end. For example, if a linked list has 5 elements, the 3rd element 
@@ -90,9 +96,6 @@ class Node(object):
 	def __init__(self, data):
 		self.data = data
 		self.next = None
-	def push(self, data):
-		new_node = Node(data)
-		self.next = new_node
 
 def question5(ll, m):
 	if m < 0:
@@ -131,15 +134,26 @@ print("Question2")
 # print question2("")
 # 
 
+######### Question4 test cases ###########
+print("Question4")
+# sdads
+# print question4([[0, 1, 0, 0, 0],
+#            [0, 0, 0, 0, 0],
+#            [0, 0, 0, 0, 0],
+#            [1, 0, 0, 0, 1],
+#            [0, 0, 0, 0, 0]],
+#           3,
+#           1,
+#           4)
 
 
 ######### Question5 test cases ###########
 print("Question5")
 # sdads
 head1 = Node(0)
-head1.push(10)
-head1.push(20)
-head1.push(30)
-head1.push(40)
-head1.push(50)
-print question5(head1, 3)
+head1.next = Node(10)
+head1.next.next = Node(20)
+head1.next.next.next = Node(50)
+head1.next.next.next.next = Node(80)
+
+print question5(head1, 6)
