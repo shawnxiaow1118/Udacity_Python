@@ -3,25 +3,33 @@
 """
 def question1(s, t):
 	counter = {}
+	# construct dict for string t's characters
 	for char in t:
 		if char in counter.keys():
 			counter[char]+=1
 		else:
 			counter[char]=1
+	# start from the index 0 and to see whether we can find substrig that is anagram of t
+	# which is determined by a dictionary
 	idx = 0
-	for i in range(len(s)-len(t)):
+	for i in range(len(s)):
 		if s[i] in counter.keys():
+			# s[i] in dict's key set
 			if counter[s[i]] == 0:
+				# character appear too many
 				j = idx
+				# move the cursor right to solve the redundant characters problem
 				while(s[j]!=s[i]):
 					counter[s[j]]+=1
 					j+=1
 				idx = j
 			else:
+				# decrease the counter acccordingly
 				counter[s[i]]-=1
 				if (sum(counter.values())==0):
 					return True
 		else:
+			# s[i] not is not contained in t, then start the same process from i+1
 			for j in range(idx, i):
 				counter[s[j]]+=1
 			idx = i+1
@@ -83,5 +91,10 @@ def question5(ll, m):
 
 
 
-# print question2("12212")
-print question1("udacity", "caadfdsd")
+# Question1 test cases
+print question1("udacity", "au")
+# False
+print question1("udacity", "iacd")
+# True
+print question1("udacity", "")
+# False
