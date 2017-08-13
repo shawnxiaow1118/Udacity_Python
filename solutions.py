@@ -86,8 +86,29 @@ def question4(T, r, n1, n2):
 """ Find the element in a singly linked list that's m elements from the end. For example, if a linked list has 5 elements, the 3rd element 
 	from the end is the 3rd element. The function definition should look like question5(ll, m), where ll is the first node of a linked list and m is the "mth number from the end". You should copy/paste the Node class below to use as a representation of a node in the linked list. Return the value of the node at that position.
 """
+class Node(object):
+	def __init__(self, data):
+		self.data = data
+		self.next = None
+	def push(self, data):
+		new_node = Node(data)
+		self.next = new_node
+
 def question5(ll, m):
-	return
+	if m < 0:
+		return
+	first = ll
+	second = ll
+	if (ll is not None):
+		for i in range(m):
+			if (first == None):
+				return
+			else:
+				first = first.next
+	while(first != None):
+		first = first.next
+		second = second.next
+	return second.data
 
 
 
@@ -103,9 +124,22 @@ print("Question1")
 
 ######### Question2 test cases ###########
 print("Question2")
-print question2("tgsdadse")
+# print question2("tgsdadse")
 # sdads
-print question2("123")
+# print question2("123")
 # 1
-print question2("")
+# print question2("")
 # 
+
+
+
+######### Question5 test cases ###########
+print("Question5")
+# sdads
+head1 = Node(0)
+head1.push(10)
+head1.push(20)
+head1.push(30)
+head1.push(40)
+head1.push(50)
+print question5(head1, 3)
