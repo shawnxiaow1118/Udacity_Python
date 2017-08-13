@@ -43,19 +43,23 @@ def question2(a):
 	expanded_str = "$#"
 	for char in a:
 		expanded_str += char + '#'
+	expanded_str += "&"
 	print(expanded_str)
-	n = len(a)
+	n = len(expanded_str)
 	p = [0]*n
 	mx = 0
 	idx = 0
 	resLen = 0
 	resCenter = 0
-	for i in range(1,n):
+	for i in range(1,n-1):
 		if mx > i:
 			p[i] = min(p[2*idx-i], mx-i)
 		else:
 			p[i] = 1
-		while expanded_str[i+p[i]] == expanded_str[i-p[i]]:
+		while (expanded_str[i+p[i]] == expanded_str[i-p[i]]):
+			print(i), 
+			print(" "), 
+			print(p[i])
 			p[i]+=1
 		if (mx < i+p[i]):
 			mx = i+p[i]
@@ -91,10 +95,14 @@ def question5(ll, m):
 
 
 
-# Question1 test cases
-print question1("udacity", "au")
+######### Question1 test cases ###########
+# print question1("udacity", "au")
 # False
-print question1("udacity", "iacd")
+# print question1("udacity", "iacd")
 # True
-print question1("udacity", "")
+# print question1("udacity", "")
 # False
+
+
+######### Question2 test cases ###########
+print question2("12212")
