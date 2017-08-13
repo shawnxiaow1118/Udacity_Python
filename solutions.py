@@ -1,4 +1,6 @@
 
+# Author: xwang
+
 """ Given two strings s and t, determine whether some anagram of t is a substring of s. For example: if s = "udacity" and t = "ad",
 	then the function returns True. Your function definition should look like: question1(s, t) and return a boolean True or False.
 """
@@ -42,27 +44,36 @@ def question1(s, t):
 """
 def question2(a):
 	# Manacher's Algorithms, based on the assumption that the string is normal one, doesn't contain & I used in the algorithm
+	# expand the string to unify odd and even situations
 	expanded_str = "$#"
 	for char in a:
 		expanded_str += char + '#'
 	expanded_str += "&"
 	n = len(expanded_str)
+	# list to record the dp values
 	p = [0]*n
+	# right most index of current longest palindrome
 	mx = 0
+	# center of current palindrome
 	idx = 0
+	# record the result len and center of final palindrom
 	resLen = 0
 	resCenter = 0
 	for i in range(1,n-1):
 		if mx > i:
+			# min of symmetric points about the current palindrome's index
 			p[i] = min(p[2*idx-i], mx-i)
 		else:
 			p[i] = 1
 		while (expanded_str[i+p[i]] == expanded_str[i-p[i]]):
+			# expand the current palindrom
 			p[i]+=1
 		if (mx < i+p[i]):
+			# update 
 			mx = i+p[i]
 			idx = i
 		if (resLen < p[i]):
+			# update result information
 			resLen = p[i]
 			resCenter = i
 	return a[(resCenter-resLen)/2:(resCenter+resLen)/2-1]
@@ -71,14 +82,15 @@ def question2(a):
 	with the smallest possible total weight of edges. Your function should take in and return an adjacency list structured.
 """
 def find(i, parent):
-	print(i)
-	print(parent[i])
-	print("====")
+	""" help function to find the root ancestor of a node
+	"""
 	while(parent[i]!=i):
 		i = parent[i]
 	return i
 
 def union(x,y,parent,rank):
+	""" help function to union two nodes with rank compression
+	"""
 	x_parent = parent[x]
 	y_parent = parent[y]
 	if (rank[x_parent] < rank[y_parent]):
@@ -91,18 +103,24 @@ def union(x,y,parent,rank):
 
 def question3(G):
 	n = len(G)
+	if n <= 2:
+		return G
 	edges = set()
 	node_to_idx = {}
 	count = 0
+	# extract edges from the inputs
 	for key in G.keys():
+		# map index,easier for later find and union operation
 		node_to_idx[key] = count
 		count+=1
 		for item in G[key]:
+			# edge created based on order, this is undirected graph
 			if key < item[0]:
 				edge = (key, item[0], item[1])
 			else:
 				edge = (item[0], key, item[1])
 			edges.add(edge)
+	# sort edge based on the weight
 	edges = sorted(edges, key=lambda item:item[2])
 	parent = []
 	rank = []
@@ -114,7 +132,7 @@ def question3(G):
 		if find(node_to_idx[edge[0]], parent)!=find(node_to_idx[edge[1]], parent):
 			res.append(edge)
 			union(node_to_idx[edge[0]], node_to_idx[edge[1]], parent, rank)
-
+	# construct desired results
 	result = {}
 	for item in res:
 		A = item[0]
@@ -138,6 +156,9 @@ def question3(G):
 	non-negative integer representing the root, and n1 and n2 are non-negative integers representing the two nodes in no particular order.
 """
 def question4(T, r, n1, n2):
+	# recursive method
+	if len(T) <= 0:
+		return 
 	if (r == None):
 		return
 	if (n1 < r and n2 < r):
@@ -156,7 +177,8 @@ class Node(object):
 		self.next = None
 
 def question5(ll, m):
-	if m < 0:
+	# run two pointer
+	if m < 0 or ll == None:
 		return
 	first = ll
 	second = ll
@@ -175,49 +197,71 @@ def question5(ll, m):
 
 ######### Question1 test cases ###########
 print("Question1")
-# print question1("udacity", "au")
+print ("test case1: {}").format(question1("udacity", "au"))
 # False
-# print question1("udacity", "iacd")
+print ("test case2: {}").format(question1("udacity", "iacd"))
 # True
-# print question1("udacity", "")
+print ("test case3: {}").format(question1("udacity", ""))
 # False
 
 
 ######### Question2 test cases ###########
 print("Question2")
-# print question2("tgsdadse")
+print ("test case1: {}").format(question2("tgsdadse"))
 # sdads
-# print question2("123")
+print ("test case2: {}").format(question2("123"))
 # 1
-# print question2("")
+print ("test case3: {}").format(question2(""))
 # 
 
 
 ######### Question3 test cases ###########
 print("Question3")
-graph1 = {'A': [('B', 2)],'B': [('A', 2), ('C', 5)], 'C': [('B', 5),  ('A', 2)]}
-print question3(graph1)
+graph1 = {'A': [('B', 2), ('C', 2)],'B': [('A', 2), ('C', 5)], 'C': [('B', 5),  ('A', 2)]}
+print ("test case1: {}").format(question3(graph1))
+#  {'A': [('B', 2), ('C', 2)],'B': [('A', 2)], 'C': [('A', 2)]}
+graph2 = {'A': [('B', 2), ('C', 8)],'B': [('A', 2), ('C', 5)], 'C': [('B', 5),  ('A', 8)]}
+print ("test case2: {}").format(question3(graph2))
+#  {'A': [('B', 2)],'B': [('A', 2), ('C', 5)], 'C': [('B', 5)]}
+graph3 = {}
+print ("test case3: {}").format(question3(graph3))
+# {}
 
 ######### Question4 test cases ###########
 print("Question4")
 # sdads
-# print question4([[0, 1, 0, 0, 0],
-#            [0, 0, 0, 0, 0],
-#            [0, 0, 0, 0, 0],
-#            [1, 0, 0, 0, 1],
-#            [0, 0, 0, 0, 0]],
-#           3,
-#           1,
-#           4)
+print ("test case1: {}").format(question4([[0, 1, 0, 0, 0],
+           [0, 0, 0, 0, 0],
+           [0, 0, 0, 0, 0],
+           [1, 0, 0, 0, 1],
+           [0, 0, 0, 0, 0]],
+          3,
+          1,
+          4))
+# 3
+print ("test case2: {}").format(question4([[0, 1, 0, 0, 0],
+           [0, 1, 0, 0, 0],
+           [0, 0, 0, 0, 0],
+           [1, 0, 0, 0, 1],
+           [0, 0, 0, 0, 0]],
+          3,
+          1,
+          2))
+# 1
+print ("test case3: {}").format(question4([],3,1,2))
+# None
 
 
 ######### Question5 test cases ###########
 print("Question5")
-# sdads
 head1 = Node(0)
 head1.next = Node(10)
 head1.next.next = Node(20)
 head1.next.next.next = Node(50)
 head1.next.next.next.next = Node(80)
-
-print question5(head1, 6)
+print ("test case1: {}").format(question5(head1, 6))
+# None
+print ("test case2: {}").format(question5(head1, 2))
+# 50
+print ("test case3: {}").format(question5(None, 2))
+# None
