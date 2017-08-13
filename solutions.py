@@ -40,11 +40,11 @@ def question1(s, t):
 	and return a string.
 """
 def question2(a):
+	# Manacher's Algorithms, based on the assumption that the string is normal one, doesn't contain & I used in the algorithm
 	expanded_str = "$#"
 	for char in a:
 		expanded_str += char + '#'
 	expanded_str += "&"
-	print(expanded_str)
 	n = len(expanded_str)
 	p = [0]*n
 	mx = 0
@@ -57,9 +57,6 @@ def question2(a):
 		else:
 			p[i] = 1
 		while (expanded_str[i+p[i]] == expanded_str[i-p[i]]):
-			print(i), 
-			print(" "), 
-			print(p[i])
 			p[i]+=1
 		if (mx < i+p[i]):
 			mx = i+p[i]
@@ -67,9 +64,8 @@ def question2(a):
 		if (resLen < p[i]):
 			resLen = p[i]
 			resCenter = i
-	print(resCenter)
-	print(resLen)
-	return a[(resCenter-resLen)/2:(resCenter+resLen)/2]
+	return a[(resCenter-resLen)/2:(resCenter+resLen)/2-1]
+
 """Given an undirected graph G, find the minimum spanning tree within G. A minimum spanning tree connects all vertices in a graph 
 	with the smallest possible total weight of edges. Your function should take in and return an adjacency list structured.
 """
@@ -96,6 +92,7 @@ def question5(ll, m):
 
 
 ######### Question1 test cases ###########
+print("Question1")
 # print question1("udacity", "au")
 # False
 # print question1("udacity", "iacd")
@@ -105,4 +102,10 @@ def question5(ll, m):
 
 
 ######### Question2 test cases ###########
-print question2("12212")
+print("Question2")
+print question2("tgsdadse")
+# sdads
+print question2("123")
+# 1
+print question2("")
+# 
