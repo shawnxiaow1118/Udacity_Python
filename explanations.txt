@@ -1,0 +1,14 @@
+Question1:
+Construct a coutner dictionary for the pattern string, if it is a substring of the target string, we can decrease the counter' count accordingly, if every character's count is exactly zero, than we can say it is a anagram of the substring of the target string. Once we constructed the counter for pattern string, we have to take care of how to pass through the search string. Assume n1 is the legnth of target string, n2 is the pattern string. Space complexity: O(n1) Time complexity: O(n1+n2) [construct dict consumed O(n2) and every character in target will be visted at most twice]
+
+Question2:
+Usal algorithms will take approximately O(n^2) time complexity. Like we can for each location expand the palindrome accordingly. Here, I applied the Manacher's Algorthms, which is a kind of dynamic algorithm. And it take the advantage of the symmetric property. First we need to preprocessing the string to make it easier for later DP, and the preprocessing can get rid of the difficulty to handle odd and even string length situation. The most important part is the recursive formula:  dp[i] = rmx > i ? min(dp[2 * id - i], rmx - i) : 1. The Space complexity is O(n) [store the dp value], Time complexity: O(n) [one pass to calculate do values]
+
+Question3:
+Kruskal's algirhm to find the minimum spanning tree. Kruskal is a greedy algorithm, it continously add the lowest cost edge into the tree. In the union step, using path compression. Space Complexity: O(E) [E is the number of the edges in the original graph] Time Complexity: O(ElgV) [E is the number of edges, V is the number of nodes, lgV is the time complexity of find and union operation]
+
+Question4:
+Recursive algorihm can handle the problem easily, we can use the property of the BST that root.val > root.left.val and root.val < root.right.val. Space Complexity: O(h) [stack occupied] Time Complexity: O(h) [h is the height of the tree]
+
+Question5:
+Use two pointer, the first pointer run for m steps, then run first and second poitner together. Second pointer is pointing to the mth to the end when the first pointer arrive at the end of the list. Time Complexity: O(n) [n is the lenght of the list]
