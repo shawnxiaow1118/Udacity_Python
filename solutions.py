@@ -1,3 +1,4 @@
+
 """ Given two strings s and t, determine whether some anagram of t is a substring of s. For example: if s = "udacity" and t = "ad",
 	then the function returns True. Your function definition should look like: question1(s, t) and return a boolean True or False.
 """
@@ -69,8 +70,65 @@ def question2(a):
 """Given an undirected graph G, find the minimum spanning tree within G. A minimum spanning tree connects all vertices in a graph 
 	with the smallest possible total weight of edges. Your function should take in and return an adjacency list structured.
 """
+def find(i, parent):
+	print(i)
+	print(parent[i])
+	print("====")
+	while(parent[i]!=i):
+		i = parent[i]
+	return i
+
+def union(x,y,parent,rank):
+	x_parent = parent[x]
+	y_parent = parent[y]
+	if (rank[x_parent] < rank[y_parent]):
+		parent[x_parent] = y_parent
+	elif (rank[x_parent] > rank[y_parent]):
+		parent[y_parent] = x_parent
+	else:
+		parent[y_parent] = x_parent
+		rank[x_parent] += 1
+
 def question3(G):
-	return
+	n = len(G)
+	edges = set()
+	node_to_idx = {}
+	count = 0
+	for key in G.keys():
+		node_to_idx[key] = count
+		count+=1
+		for item in G[key]:
+			if key < item[0]:
+				edge = (key, item[0], item[1])
+			else:
+				edge = (item[0], key, item[1])
+			edges.add(edge)
+	edges = sorted(edges, key=lambda item:item[2])
+	parent = []
+	rank = []
+	res = []
+	for i in range(n):
+		parent.append(i)
+		rank.append(0)
+	for edge in edges:
+		if find(node_to_idx[edge[0]], parent)!=find(node_to_idx[edge[1]], parent):
+			res.append(edge)
+			union(node_to_idx[edge[0]], node_to_idx[edge[1]], parent, rank)
+
+	result = {}
+	for item in res:
+		A = item[0]
+		B = item[1]
+		weight = item[2]
+		if A in result.keys():
+			result[A].append((B,weight))
+		else:
+			result[A] = [(B,weight)]
+		if B in result.keys():
+			result[B].append((A,weight))
+		else:
+			result[B] = [(A,weight)]
+	return result
 
 """Find the least common ancestor between two nodes on a binary search tree. The least common ancestor is the farthest node from the root 
 	that is an ancestor of both nodes. For example, the root is a common ancestor of all nodes on the tree, but if both nodes are descendents 
@@ -133,6 +191,12 @@ print("Question2")
 # 1
 # print question2("")
 # 
+
+
+######### Question3 test cases ###########
+print("Question3")
+graph1 = {'A': [('B', 2)],'B': [('A', 2), ('C', 5)], 'C': [('B', 5),  ('A', 2)]}
+print question3(graph1)
 
 ######### Question4 test cases ###########
 print("Question4")
