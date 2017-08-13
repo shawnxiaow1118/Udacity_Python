@@ -2,7 +2,30 @@
 	then the function returns True. Your function definition should look like: question1(s, t) and return a boolean True or False.
 """
 def question1(s, t):
-	return
+	counter = {}
+	for char in t:
+		if char in counter.keys():
+			counter[char]+=1
+		else:
+			counter[char]=1
+	idx = 0
+	for i in range(len(s)-len(t)):
+		if s[i] in counter.keys():
+			if counter[s[i]] == 0:
+				j = idx
+				while(s[j]!=s[i]):
+					counter[s[j]]+=1
+					j+=1
+				idx = j
+			else:
+				counter[s[i]]-=1
+				if (sum(counter.values())==0):
+					return True
+		else:
+			for j in range(idx, i):
+				counter[s[j]]+=1
+			idx = i+1
+	return False
 
 
 """ Given a string a, find the longest palindromic substring contained in a. Your function definition should look like question2(a), 
@@ -60,4 +83,5 @@ def question5(ll, m):
 
 
 
-print question2("12212")
+# print question2("12212")
+print question1("udacity", "caadfdsd")
